@@ -56,12 +56,15 @@ def main():
         clock.tick(MAX_FPS)
         pygame.display.flip()
 
+def highlightSquare(screen, st, move, sqSelected):
+    pass
+
 def drawState(screen, st):
     drawBoard(screen)
     drawPieces(screen, st.board)
 
 def drawBoard(screen):
-    colors = (pygame.Color("white"), pygame.Color("gray"))
+    colors = (pygame.Color("white"), pygame.Color("dark green"))
 
     for i in range(DIMENSION):
         for j in range(DIMENSION):

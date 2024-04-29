@@ -60,12 +60,6 @@ class Move():
 # Below lists detail all eight possible movements for a knight
 possible_moves = {(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)}
 
-def isValid(x, y, N):
-    return not (x < 0 or y < 0 or x >= N or y >= N)
-
-def highlightSquare(screen, st, move, sqSelected):
-
-    pass
 
 
 def findShortestDistance(startSq, endSq, board):
@@ -89,7 +83,7 @@ def findShortestDistance(startSq, endSq, board):
         # dequeue front node and process it
         cur_row, cur_col, level = q.popleft()
 
-        print((cur_row, cur_col), level)
+        print ((cur_row, cur_col), level)
  
         # if the destination is reached, return level from tree
         if cur_row == endRow and cur_col == endCol:
