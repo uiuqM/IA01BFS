@@ -4,7 +4,7 @@ from tkinter import messagebox
 from pygame import Vector2
 import random
 
-image_path = "IA01BFS/knight.png"
+image_path = "knight.png"
 
 start_position = (random.randint(0, 7), random.randint(0, 7))
 
@@ -25,7 +25,7 @@ background_color = CREAM
 cell_color = BROWN
 line_color = CREAM
 
-simulation_ticks = 5  # 0 enlève le delai
+simulation_ticks = 3  # 0 Remover atraso
 
 
 class Rider(pygame.sprite.Sprite):
