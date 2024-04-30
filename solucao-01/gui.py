@@ -1,6 +1,8 @@
 import pygame
 from pygame import *
 import board
+from collections import deque
+import sys
 
 WIDTH = HEIGHT = 512
 DIMENSION = 8
@@ -39,7 +41,7 @@ def main():
                 playerClicks.append(sqSelected)
 
                 if len(playerClicks) == 2:
-                    print(board.findShortestDistance(playerClicks[0], playerClicks[1], st.board))
+                    findShortestDistance(playerClicks[0], playerClicks[1], screen, st)
                     
                     move = board.Move(playerClicks[0], playerClicks[1], st.board)
 
@@ -79,6 +81,45 @@ def drawPieces(screen, board):
             if piece != "--":
                 screen.blit(knight, pygame.Rect(j*SQ_SIZE, i*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
+# Below lists detail all eight possible movements for a knight
+possible_moves = {(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)}
+
+def findShortestDistance(startSq, endSq, screen, st):
+    startRow = startSq[0]
+    startCol = startSq[1]
+
+
+    endRow = endSq[0]
+    endCol = endSq[1]
+
+    level = 0
+
+    # set to check if the matrix cell is visited before or not
+    visited = set()
+ 
+    # create a queue and enqueue the first node
+    q = deque([(startRow, startCol, level)])
+ 
+    # loop till queue is empty
+    while q:
+ 
+        # dequeue front node and process it
+        cur_row, cur_col, level = q.popleft()
+
+        print ((cur_row, cur_col), level)
+        # if the destination is reached, return level from tree
+        if cur_row == endRow and cur_col == endCol:
+            return level
+ 
+        for dx, dy in possible_moves:
+            # skip if the location is visited before or out of range of the board
+            if ( 0 <= cur_row + dx <= 8 and 0 <= cur_col + dy <= 8 and (cur_row + dx, cur_col + dy) not in visited):
+
+                visited.add((cur_row + dx, cur_col + dy))
+                q.append((cur_row + dx, cur_col + dy, level+1))
+
+    # return infinity if the path is not possible
+    return sys.maxsize
 
 if __name__ == "__main__":
     main()

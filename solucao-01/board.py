@@ -66,6 +66,8 @@ def findShortestDistance(startSq, endSq, board):
     startRow = startSq[0]
     startCol = startSq[1]
 
+    print(board)
+
     endRow = endSq[0]
     endCol = endSq[1]
 
