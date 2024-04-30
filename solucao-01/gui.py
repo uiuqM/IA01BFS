@@ -1,3 +1,4 @@
+from time import sleep
 import pygame
 from pygame import *
 import board
@@ -52,17 +53,37 @@ def main():
 
                     sqSelected = ()
                     playerClicks = []
-            drawState(screen, st)
+
+            drawState(screen, st, sqSelected)
 
 
         clock.tick(MAX_FPS)
         pygame.display.flip()
 
-def highlightSquare(screen, st, move, sqSelected):
+def highlightSquare(screen, sqSelected):
+    if sqSelected != ():
+        r, c = sqSelected
+        s = pygame.Surface((SQ_SIZE, SQ_SIZE))
+        s.set_alpha(100)
+        s.fill(pygame.Color('blue'))
+        screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
+
+def highlightMove(screen, sqSelected):
+    if sqSelected != ():
+        r, c = sqSelected
+        s = pygame.Surface((SQ_SIZE, SQ_SIZE))
+        s.set_alpha(150)
+        s.fill(pygame.Color('red'))
+        screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
+
+def animateMove(move, screen, board, clock):
     pass
 
-def drawState(screen, st):
+def drawState(screen, st, sqSelected, isAlgo=False):
     drawBoard(screen)
+    if (isAlgo):
+        highlightMove(screen, sqSelected)
+    highlightSquare(screen, sqSelected)
     drawPieces(screen, st.board)
 
 def drawBoard(screen):
@@ -106,9 +127,14 @@ def findShortestDistance(startSq, endSq, screen, st):
         # dequeue front node and process it
         cur_row, cur_col, level = q.popleft()
 
-        print ((cur_row, cur_col), level)
+        move = (cur_row, cur_col)
+
+        drawState(screen, st, move, isAlgo=True)
+        sleep(0.2)
+
         # if the destination is reached, return level from tree
         if cur_row == endRow and cur_col == endCol:
+            print (level)
             return level
  
         for dx, dy in possible_moves:
@@ -117,6 +143,7 @@ def findShortestDistance(startSq, endSq, screen, st):
 
                 visited.add((cur_row + dx, cur_col + dy))
                 q.append((cur_row + dx, cur_col + dy, level+1))
+                pygame.display.flip()
 
     # return infinity if the path is not possible
     return sys.maxsize
