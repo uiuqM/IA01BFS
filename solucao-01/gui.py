@@ -68,21 +68,35 @@ def highlightSquare(screen, sqSelected):
         s.fill(pygame.Color('blue'))
         screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
 
-def highlightMove(screen, sqSelected):
+def highlightMove(screen, sqSelected, level):
     if sqSelected != ():
+        r, c = sqSelected
+        s = pygame.Surface((SQ_SIZE, SQ_SIZE))
+        font = pygame.font.SysFont("monospace", 60)
+        label = font.render(str(level), 1, (0, 0, 0))
+        screen.blit(label, (c*SQ_SIZE, r*SQ_SIZE))
+        #pygame.display.set_caption(str(level))
+    """if sqSelected != ():
         r, c = sqSelected
         s = pygame.Surface((SQ_SIZE, SQ_SIZE))
         s.set_alpha(150)
         s.fill(pygame.Color('red'))
         screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
+"""
+def showLevel(screen, level):
+    phrase = "Current minimum is: "
+    font = pygame.font.SysFont("monospace", 40)
+    label = font.render(str(level), 1, (255, 255, 0))
+    screen.blit(label, (250, 250))
+    pygame.display.set_caption(phrase + str(level))
 
 def animateMove(move, screen, board, clock):
     pass
 
-def drawState(screen, st, sqSelected, isAlgo=False):
+def drawState(screen, st, sqSelected, isAlgo=False, level=None):
     drawBoard(screen)
     if (isAlgo):
-        highlightMove(screen, sqSelected)
+        highlightMove(screen, sqSelected, level)
     highlightSquare(screen, sqSelected)
     drawPieces(screen, st.board)
 
@@ -109,7 +123,6 @@ def findShortestDistance(startSq, endSq, screen, st):
     startRow = startSq[0]
     startCol = startSq[1]
 
-
     endRow = endSq[0]
     endCol = endSq[1]
 
@@ -129,12 +142,13 @@ def findShortestDistance(startSq, endSq, screen, st):
 
         move = (cur_row, cur_col)
 
-        drawState(screen, st, move, isAlgo=True)
-        sleep(0.2)
+        drawState(screen, st, move, isAlgo=True, level=level)
+        sleep(0.3)
 
         # if the destination is reached, return level from tree
         if cur_row == endRow and cur_col == endCol:
-            print (level)
+            showLevel(screen, level)
+            pygame.display.flip()
             return level
  
         for dx, dy in possible_moves:
