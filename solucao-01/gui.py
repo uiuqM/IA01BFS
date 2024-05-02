@@ -75,14 +75,7 @@ def highlightMove(screen, sqSelected, level):
         font = pygame.font.SysFont("monospace", 60)
         label = font.render(str(level), 1, (0, 0, 0))
         screen.blit(label, (c*SQ_SIZE, r*SQ_SIZE))
-        #pygame.display.set_caption(str(level))
-    """if sqSelected != ():
-        r, c = sqSelected
-        s = pygame.Surface((SQ_SIZE, SQ_SIZE))
-        s.set_alpha(150)
-        s.fill(pygame.Color('red'))
-        screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
-"""
+
 def showLevel(screen, level):
     phrase = "Current minimum is: "
     font = pygame.font.SysFont("monospace", 40)
