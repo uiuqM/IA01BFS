@@ -4,6 +4,7 @@ from pygame import *
 import board
 from collections import deque
 import sys
+from random import randint
 
 WIDTH = HEIGHT = 512
 DIMENSION = 8
@@ -20,7 +21,7 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(pygame.Color("White"))
     st =  board.State()
-    print(st.board)
+    putTheKnOnRandomPlace(st.board)
     drawBoard(screen)
     drawPieces(screen, board.State().board)
     running = True
@@ -100,6 +101,15 @@ def drawBoard(screen):
         for j in range(DIMENSION):
             color = colors[((i+j) %2)]
             pygame.draw.rect(screen, color, pygame.Rect(j*SQ_SIZE, i*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+def putTheKnOnRandomPlace(board):
+    iR = randint(0, 7)
+    jR = randint(0, 7)
+
+    for i in range(DIMENSION):
+        for j in range(DIMENSION):
+            if i == iR and j == jR:
+                board[i][j] = "kn"
 
 def drawPieces(screen, board):
     for i in range(DIMENSION):

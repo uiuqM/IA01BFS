@@ -6,7 +6,7 @@ class State ():
     def __init__(self):
 
         self.board = [
-            ["--", "kn", "--", "--", "--", "--", "--", "--"],
+            ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
@@ -57,46 +57,3 @@ class Move():
     def getRankFile(self, row, col):
         return self.colsToFiles[col] + self.rowsToRanks[row]
 
-
-# Below lists detail all eight possible movements for a knight
-possible_moves = {(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)}
-
-
-
-def findShortestDistance(startSq, endSq, board):
-    startRow = startSq[0]
-    startCol = startSq[1]
-
-    print(board)
-
-    endRow = endSq[0]
-    endCol = endSq[1]
-
-    level = 0
-
-    # set to check if the matrix cell is visited before or not
-    visited = set()
- 
-    # create a queue and enqueue the first node
-    q = deque([(startRow, startCol, level)])
- 
-    # loop till queue is empty
-    while q:
- 
-        # dequeue front node and process it
-        cur_row, cur_col, level = q.popleft()
-
-        print ((cur_row, cur_col), level)
- 
-        # if the destination is reached, return level from tree
-        if cur_row == endRow and cur_col == endCol:
-            return level
- 
-        for dx, dy in possible_moves:
-            # skip if the location is visited before or out of range of the board
-            if ( 0 <= cur_row + dx <= 8 and 0 <= cur_col + dy <= 8 and (cur_row + dx, cur_col + dy) not in visited):
-                visited.add((cur_row + dx, cur_col + dy))
-                q.append((cur_row + dx, cur_col + dy, level+1))
-
-    # return infinity if the path is not possible
-    return sys.maxsize
